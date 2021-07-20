@@ -10,8 +10,8 @@ export const links = [
   },
   {
     id: 2,
-    url: '/menu',
-    text: 'menu',
+    url: '/products',
+    text: 'products',
   },
   {
     id: 3,

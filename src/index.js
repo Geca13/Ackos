@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+import SignUpPage from './pages/SignUpPage'
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <SignUpPage />
   </BrowserRouter>,
   document.getElementById('root')
 );
