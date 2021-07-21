@@ -2,19 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import SignUpPage from './pages/SignUpPage'
+import { SignUpPage } from './pages/SignUpPage'
+import { LoginPage } from './pages/LoginPage'
+
 import * as apiCalls from './api/apiCalls'
 
 const actions = {
-  postSignUp: apiCalls.signUp
+  postSignIn: apiCalls.signIn
 }
 
 ReactDOM.render(
-  <BrowserRouter>
-    <SignUpPage actions={actions} />
-  </BrowserRouter>,
+  <HashRouter>
+    <App />
+  </HashRouter>,
   document.getElementById('root')
 );
 
