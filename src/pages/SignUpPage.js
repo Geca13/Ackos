@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Input from '../components/Input';
 
 export class SignUpPage extends Component {
 
@@ -7,32 +8,48 @@ export class SignUpPage extends Component {
         lastName: '',
         email: '' ,
         password: '',
-        passwordRepeat: ''
+        passwordRepeat: '',
+        pendingApiCall: false,
+        errors: {} ,
+        passwordRepeatConfirmed: true
     }
 
     onChangeFirstName = (event) => {
        const value = event.target.value ;
-       this.setState({firstName: value})
+       const errors = { ...this.state.errors}
+       delete errors.firstName;
+       this.setState({firstName: value, errors});
     }
 
     onChangeLastName = (event) => {
         const value = event.target.value ;
-        this.setState({lastName: value})
+        const errors = { ...this.state.errors}
+        delete errors.lastName;
+        this.setState({lastName: value, errors});
     }
 
     onChangeEmail = (event) => {
         const value = event.target.value ;
-        this.setState({email: value})
+        const errors = { ...this.state.errors}
+        delete errors.email;
+        this.setState({email: value, errors})
     }
 
     onChangePassword = (event) => {
         const value = event.target.value ;
-        this.setState({password: value})
+        const passwordRepeatConfirmed = this.state.passwordRepeat === value;
+        const errors = {...this.state.errors}
+        delete errors.password;
+        errors.passwordRepeat = passwordRepeatConfirmed ? '' : 'Does not match to password'
+        this.setState({password: value , passwordRepeatConfirmed, errors})
     }
 
     onChangePasswordRepeat = (event) => {
         const value = event.target.value ;
-        this.setState({passwordRepeat: value})
+        const passwordRepeatConfirmed = this.state.password === value;
+        const errors = {...this.state.errors}
+        errors.passwordRepeat = passwordRepeatConfirmed ? '' : 'Does not match to password'
+        this.setState({passwordRepeat: value, passwordRepeatConfirmed, errors})
     }
 
     onClickSignUp = () =>{
@@ -43,39 +60,79 @@ export class SignUpPage extends Component {
             password: this.state.password
 
         }
-        this.props.actions.postSignUp(user);
+        this.setState({pendingApiCall:true})
+        this.props.actions.postSignUp(user).then(response => {
+            this.setState({pendingApiCall:false})
+        }).catch((apiError)=>{
+            let errors = {...this.state.errors}
+            if(apiError.response.data && apiError.response.data.validationErrors) {
+                errors = {...apiError.response.data.validationErrors}
+            }
+            this.setState({pendingApiCall:false, errors})
+        });
     }
     render() {
         return (
-            <div>
-                <h1>Sign Up</h1>
-                <div>
-                    <input placeholder='Your First Name'
+            <div className='container'>
+                <h1 className='text-center'>Sign Up</h1>
+                <div className='col-12 mb-3'>
+                     
+                    <Input 
+                     label='First Name'
+                     placeholder='Your First Name'
                      value={this.state.firstName}
-                     onChange={this.onChangeFirstName} />
+                     onChange={this.onChangeFirstName}
+                     hasError={this.state.errors.firstName && true}
+                     error={this.state.errors.firstName} />
+                     
                 </div>
-                <div>
-                    <input placeholder='Your Last Name'
+                <div div className='col-12 mb-3'>
+                <Input 
+                    label='Last Name'
+                    placeholder='Your Last Name'
                     value={this.state.lastName}
-                    onChange={this.onChangeLastName} />
+                    onChange={this.onChangeLastName}
+                    hasError={this.state.errors.lastName && true}
+                     error={this.state.errors.lastName} /> 
                 </div>
-                <div>
-                    <input placeholder='Email'
+                <div className='col-12 mb-3'>
+                <Input 
+                    label='Email'
+                    placeholder='Email'
                     value={this.state.email}
-                    onChange={this.onChangeEmail} />
+                    onChange={this.onChangeEmail} 
+                    hasError={this.state.errors.email && true}
+                     error={this.state.errors.email} />
                 </div>
-                <div>
-                    <input type='password' placeholder='Your Password'
+                <div div className='col-12 mb-3'>
+                <Input 
+                    label='Password'
+                    type='password'
+                    placeholder='Your Password'
                     value={this.state.password}
-                    onChange={this.onChangePassword}/>
+                    onChange={this.onChangePassword}
+                    hasError={this.state.errors.password && true}
+                     error={this.state.errors.password} />
+                    
                 </div>
-                <div>
-                    <input type='password' placeholder='Repeat Your Password'
-                    value={this.state.passwordRepeat}
-                    onChange={this.onChangePasswordRepeat}/>
+                <div div className='col-12 mb-3'>
+                <Input 
+                     label='Repeat Password' 
+                     type='password' 
+                     placeholder='Repeat Your Password'
+                     value={this.state.passwordRepeat}
+                     onChange={this.onChangePasswordRepeat}
+                     hasError={this.state.errors.passwordRepeat && true}
+                     error={this.state.errors.passwordRepeat} />
                 </div>
-                <div>
-                    <button onClick={this.onClickSignUp}>Sign Up</button>
+                <div className='text-center '>
+                    <button className='btn btn-primary'
+                     onClick={this.onClickSignUp}
+                     disabled={this.state.pendingApiCall || !this.state.passwordRepeatConfirmed}>
+                         {this.state.pendingApiCall && 
+                          (<div className='spinner-border text-light spinner-border-sm mr-sm-1' role='status'>
+                             <span className='sr-only'></span></div>)}
+                             Sign Up</button>
                 </div>
             </div>
         );

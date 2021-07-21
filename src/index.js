@@ -5,10 +5,15 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import SignUpPage from './pages/SignUpPage'
+import * as apiCalls from './api/apiCalls'
+
+const actions = {
+  postSignUp: apiCalls.signUp
+}
 
 ReactDOM.render(
   <BrowserRouter>
-    <SignUpPage />
+    <SignUpPage actions={actions} />
   </BrowserRouter>,
   document.getElementById('root')
 );
