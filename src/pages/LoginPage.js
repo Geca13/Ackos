@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Input from '../components/Input';
 import ButtonWithProgress from '../components/ButtonWithProgress';
 import * as authActions from '../redux/authActions'
+import { connect } from 'react-redux';
 
 export class LoginPage extends Component {
 
@@ -101,4 +102,4 @@ LoginPage.defaultProps = {
     }
 }
 
-export default LoginPage;
+export default connect() (LoginPage);

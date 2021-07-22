@@ -15,14 +15,10 @@ export const links = [
   },
   {
     id: 3,
-    url: '/login',
-    text: 'Sign In',
+    url: '/about',
+    text: 'About',
   },
-  {
-    id: 4,
-    url: '/signup',
-    text: 'Sign Up!',
-  },
+  
   
   
 ]

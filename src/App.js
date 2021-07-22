@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.css'
-import Navbar from './components/Navbar'
+import Topbar from './components/TopBar'
 import Products from './pages/HomePage'
 import About from './pages/About'
 import LoginPage from './pages/LoginPage'
@@ -20,13 +20,13 @@ const actions = {
 function App() {
   return (
     <div className='container' >
-      <Navbar/>
+      <Topbar/>
       <Switch>
          <Route  exact path='/' component={HomePage} />
          <Route  path='/products' component={Products} />
          <Route  path='/login' component={(props) => <LoginPage {...props} actions={actions} />} />
          <Route  path='/signup' component={(props) => <SignUpPage {...props} actions={actions} />}/>
-         <Route  path='/:username' component={UserPage} />
+         <Route  path='/:id' component={UserPage} />
          <Route  path='/:product' component={ProductPage} />
       </Switch>
     </div>

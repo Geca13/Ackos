@@ -10,7 +10,9 @@ import authReducer from './redux/authReducer';
 import thunk from 'redux-thunk'
 import logger from 'redux-logger';
 
-const store = createStore(authReducer, applyMiddleware(thunk, logger));
+
+
+const store = createStore(authReducer,applyMiddleware(logger));
 
 ReactDOM.render(
   <Provider store={store}>
