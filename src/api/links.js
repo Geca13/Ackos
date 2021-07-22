@@ -15,12 +15,12 @@ export const links = [
   },
   {
     id: 3,
-    url: '/signInUser',
+    url: '/login',
     text: 'Sign In',
   },
   {
     id: 4,
-    url: '/signUpUser',
+    url: '/signup',
     text: 'Sign Up!',
   },
   

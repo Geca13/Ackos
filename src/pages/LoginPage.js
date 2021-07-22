@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Input from '../components/Input';
 import ButtonWithProgress from '../components/ButtonWithProgress';
+import * as authActions from '../redux/authActions'
 
 export class LoginPage extends Component {
 
@@ -27,13 +28,20 @@ export class LoginPage extends Component {
             password:this.state.password
         };
         this.setState({pendingApiCall:true})
-        this.props.actions.postSignIn(body)
-        .then(response => {
-            this.setState({pendingApiCall: false})
+       // this.props.actions.postLogin(body)
+       this.props.dispatch(authActions.loginHandler(body))
+        .then((response) => {
+            
+            this.setState({pendingApiCall: false } , () => {
+                this.props.history.push('/')
+            })
         })
         .catch((error) =>{
             if(error.response) {
-                this.setState({apiError: error.response.data.message, pendingApiCall: false})
+                this.setState({
+                    apiError: error.response.data.message,
+                     pendingApiCall: false
+                    })
             }
         });
     }

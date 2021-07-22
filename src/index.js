@@ -2,21 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import { SignUpPage } from './pages/SignUpPage'
-import { LoginPage } from './pages/LoginPage'
+import { Provider } from 'react-redux'
+import { applyMiddleware, createStore } from 'redux'
+import authReducer from './redux/authReducer';
+import thunk from 'redux-thunk'
+import logger from 'redux-logger';
 
-import * as apiCalls from './api/apiCalls'
-
-const actions = {
-  postSignIn: apiCalls.signIn
-}
+const store = createStore(authReducer, applyMiddleware(thunk, logger));
 
 ReactDOM.render(
-  <HashRouter>
+  <Provider store={store}>
+  <BrowserRouter>
     <App />
-  </HashRouter>,
+  </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 
