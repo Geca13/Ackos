@@ -10,12 +10,8 @@ import ProductPage from './pages/ProductPage'
 import Users from './pages/Users'
 import {  Route , Switch } from 'react-router-dom'
 import HomePage from './pages/HomePage'
-import * as apiCalls from './api/apiCalls'
 
-const actions = {
-  postLogin: apiCalls.signIn,
-  postSignUp: apiCalls.signUp
-}
+
 
 function App() {
   return (
@@ -24,8 +20,8 @@ function App() {
       <Switch>
          <Route  exact path='/' component={HomePage} />
          <Route  path='/products' component={Products} />
-         <Route  path='/login' component={(props) => <LoginPage {...props} actions={actions} />} />
-         <Route  path='/signup' component={(props) => <SignUpPage {...props} actions={actions} />}/>
+         <Route  path='/login' component={LoginPage} />
+         <Route  path='/signup' component={SignUpPage }/>
          <Route  path='/:id' component={UserPage} />
          <Route  path='/:product' component={ProductPage} />
       </Switch>

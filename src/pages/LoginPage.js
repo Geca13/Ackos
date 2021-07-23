@@ -29,8 +29,7 @@ export class LoginPage extends Component {
             password:this.state.password
         };
         this.setState({pendingApiCall:true})
-       // this.props.actions.postLogin(body)
-       this.props.dispatch(authActions.loginHandler(body))
+       this.props.actions.postLogin(body)
         .then((response) => {
             
             this.setState({pendingApiCall: false } , () => {
@@ -99,7 +98,17 @@ LoginPage.defaultProps = {
         postLogin: () =>
          new Promise((resolve, reject) =>
           resolve({}))
+    },
+    dispatch: () =>{}
+
+}
+
+const mapStateToProps = dispatch => {
+    return {
+        actions:{
+            postLogin: (body) => dispatch(authActions.loginHandler(body))
+        }
     }
 }
 
-export default connect() (LoginPage);
+export default connect(null, mapStateToProps) (LoginPage);

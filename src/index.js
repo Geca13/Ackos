@@ -5,14 +5,12 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
-import { applyMiddleware, createStore } from 'redux'
-import authReducer from './redux/authReducer';
-import thunk from 'redux-thunk'
-import logger from 'redux-logger';
+
+import configureStore from './redux/configureStore';
 
 
 
-const store = createStore(authReducer,applyMiddleware(logger));
+const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>

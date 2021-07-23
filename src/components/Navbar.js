@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useRef } from 'react'
 import {FaBars, FaTwitter } from 'react-icons/fa'
-import { links ,social, links2} from '../api/links'
+import { links ,social} from '../api/links'
 import { connect } from 'react-redux'
 
 const Navbar =() => {
@@ -8,9 +8,6 @@ const Navbar =() => {
    const [showLinks, setShowLinks] = useState(false);
    const linksContainerRef = useRef(null);
    const linksRef = useRef(null);
-   
-   
-
 
    useEffect(()=>{
     const linksHeight = linksRef.current.getBoundingClientRect().height
@@ -20,10 +17,7 @@ const Navbar =() => {
        linksContainerRef.current.style.height = '0px'
     }
    },[showLinks])
-
-  
         return (
-
             <nav >
                <div className='nav-center'>
                 <div className='nav-header'>
@@ -31,11 +25,8 @@ const Navbar =() => {
                    <FaBars/>
                    </button>
                 </div>
-                
                 <div className='links-container' ref={linksContainerRef}>
-                
                   <ul className='links' ref={linksRef}>
-                     
                     {links.map((link)=>{
                      const { id , url, text}= link; 
                       return (
@@ -65,10 +56,11 @@ const Navbar =() => {
         );
     }
 
-const mapStateToProps =(state)=>{
+const mapStateToProps = (state) => {
    return {
-   user: state
+      user: state
    }
 }
 
-export default connect(mapStateToProps)(Navbar);
+
+export default connect(mapStateToProps) (Navbar);
