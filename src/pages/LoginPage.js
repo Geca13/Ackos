@@ -73,7 +73,7 @@ export class LoginPage extends Component {
                 {
                     this.state.apiError && (
                         <div className='col-12 mb-3'>
-                          <div className='alert alert-danger'>
+                          <div className='alert alert-success'>
                             {this.state.apiError}
                           </div>
                         </div>
