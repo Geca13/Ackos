@@ -1,42 +1,39 @@
 import axios from "axios";
-
+import setJWTToken from "./dataService";
 import jwt_decode from 'jwt-decode'
+import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 
 export const signup = (user) =>{
     return axios.post('/auth/signUpUser', user);
 }
-/*
+
 export const login = LoginRequest => async dispatch => {
-
   try {
-
-    const res = await axios
-    .post('/auth/signInUser', LoginRequest);
+    // post => Login Request
+    const res = await axios.post("/auth/signInUser", LoginRequest);
+    // extract token from res.data
     const { token } = res.data;
-
-    localStorage.set('jwtToken','Baerer ' + token);
-
+    // store the token in the localStorage
+    localStorage.setItem("jwtToken", token);
+    // set our token in header ***
     setJWTToken(token);
-
+    // decode token on React
     const decoded = jwt_decode(token);
-    
+    // dispatch to our securityReducer
     dispatch({
-      
+      type: SET_CURRENT_USER,
       payload: decoded
-    })
-  } catch (error) {
-    
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
   }
-}
+};
 
-const setJWTToken = token =>{
-  if(token) {
-    axios.defaults.headers.common["Authorization"] = token;
-  } else {
-    delete axios.defaults.headers.common["Authorization"]
-  }
-}
-*/
+
+/*
 export const login = (email, password) => {
     return axios
       .post('/auth/signInUser', { email, password }, )
@@ -49,7 +46,7 @@ export const login = (email, password) => {
         return response.data;
       });
   }
-
+*/
   export const setAuthorizationHeader = ({ email, password, isLoggedIn , token}) => {
     if (isLoggedIn) {
       axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}

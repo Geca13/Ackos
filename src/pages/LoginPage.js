@@ -3,9 +3,11 @@ import Input from '../components/Input';
 import ButtonWithProgress from '../components/ButtonWithProgress';
 import * as authActions from '../redux/authActions'
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+import { login } from '../api/apiCalls';
 
 export class LoginPage extends Component {
-
+/*
     state= {
         email: '' ,
         password:'',
@@ -46,20 +48,47 @@ export class LoginPage extends Component {
         });
     }
 
+    */
+    constructor() {
+        super();
+        this.state = {
+          email: "",
+          password: ""
+        };
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+      }
+    
+      onSubmit(e) {
+        e.preventDefault();
+        const LoginRequest = {
+          email: this.state.email,
+          password: this.state.password
+        };
+    
+        this.props.login(LoginRequest);
+      }
+    
+      onChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+      }
+
     render() {
         let disableSubmit = false;
         if(this.state.email === '' || this.state.password === ''){
             disableSubmit = true;
         }
         return (
+            /*
             <div className='container'>
                 <h1 className='text-center'>Login</h1>
+                <form onSubmit={this.onSubmit}>
                 <div className='col-12 mb-3'>
                   <Input
                    label='Email'
                    placeholder='Your Email'
                    value={this.state.email}
-                   onChange={this.onChangeEmail}/>
+                   onChange={this.onChange}/>
                 </div>
 
                 <div className='col-12 mb-3'>
@@ -68,7 +97,7 @@ export class LoginPage extends Component {
                    placeholder='Your Password' 
                    type='password'
                    value={this.state.password}
-                   onChange={this.onChangePassword}/>
+                   onChange={this.onChange}/>
                 </div>
                 {
                     this.state.apiError && (
@@ -88,7 +117,41 @@ export class LoginPage extends Component {
 
                         
                 </div>
+                </form>
             </div>
+            */
+
+            <div className="login">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-8 m-auto">
+              <h1 className="display-4 text-center">Log In</h1>
+              <form onSubmit={this.onSubmit}>
+                <div className="form-group">
+                  <input
+                    type="email"
+                    className="form-control form-control-lg"
+                    placeholder="Email Address"
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.onChange}/>
+                </div>
+                <div className="form-group">
+                  <input
+                    type="password"
+                    className="form-control form-control-lg"
+                    placeholder="Password"
+                    name="password"
+                    value={this.state.password}
+                   onChange={this.onChange}/>
+                  
+                </div>
+                <input type="submit" className="btn btn-info btn-block mt-4" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
         );
     }
 }
@@ -103,12 +166,14 @@ LoginPage.defaultProps = {
 
 }
 
-const mapStateToProps = dispatch => {
-    return {
-        actions:{
-            postLogin: (body) => dispatch(authActions.loginHandler(body))
-        }
-    }
+LoginPage.propTypes = {
+    login: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired
 }
 
-export default connect(null, mapStateToProps) (LoginPage);
+const mapStateToProps = state => ({
+   security: state.security,
+   errors: state.errors
+})
+
+export default connect(mapStateToProps, {login}) (LoginPage);
