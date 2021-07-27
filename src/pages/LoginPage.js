@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Input from '../components/Input';
 import ButtonWithProgress from '../components/ButtonWithProgress';
-import * as authActions from '../redux/authActions'
+import { login } from '../redux/user/authentication/authActions'
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
-import { login } from '../api/apiCalls';
+
+
 
 export class LoginPage extends Component {
-/*
+
     state= {
         email: '' ,
         password:'',
@@ -26,52 +26,19 @@ export class LoginPage extends Component {
     }
 
     onClickLogin = () => {
-        const body = {
-            email: this.state.email,
-            password:this.state.password
-        };
-        this.setState({pendingApiCall:true})
-       this.props.actions.postLogin(body)
-        .then((response) => {
-            
-            this.setState({pendingApiCall: false } , () => {
-                this.props.history.push('/')
-            })
-        })
-        .catch((error) =>{
-            if(error.response) {
-                this.setState({
-                    apiError: error.response.data.message,
-                     pendingApiCall: false
-                    })
-            }
-        });
+      this.props.login(this.state.email, this.state.password);
+      setTimeout(() => {
+          if(this.props.auth.isLoggedIn) {
+              return this.props.history.push("/");
+          } else {
+              
+              this.setState({"error":"Invalid email and password"});
+          }
+      }, 500);
     }
 
-    */
-    constructor() {
-        super();
-        this.state = {
-          email: "",
-          password: ""
-        };
-        this.onChange = this.onChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-      }
     
-      onSubmit(e) {
-        e.preventDefault();
-        const LoginRequest = {
-          email: this.state.email,
-          password: this.state.password
-        };
-    
-        this.props.login(LoginRequest);
-      }
-    
-      onChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
-      }
+   
 
     render() {
         let disableSubmit = false;
@@ -79,16 +46,16 @@ export class LoginPage extends Component {
             disableSubmit = true;
         }
         return (
-            /*
+            
             <div className='container'>
                 <h1 className='text-center'>Login</h1>
-                <form onSubmit={this.onSubmit}>
+                
                 <div className='col-12 mb-3'>
                   <Input
                    label='Email'
                    placeholder='Your Email'
                    value={this.state.email}
-                   onChange={this.onChange}/>
+                   onChange={this.onChangeEmail}/>
                 </div>
 
                 <div className='col-12 mb-3'>
@@ -97,7 +64,7 @@ export class LoginPage extends Component {
                    placeholder='Your Password' 
                    type='password'
                    value={this.state.password}
-                   onChange={this.onChange}/>
+                   onChange={this.onChangePassword}/>
                 </div>
                 {
                     this.state.apiError && (
@@ -117,41 +84,11 @@ export class LoginPage extends Component {
 
                         
                 </div>
-                </form>
+               
             </div>
-            */
+            
 
-            <div className="login">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Log In</h1>
-              <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <input
-                    type="email"
-                    className="form-control form-control-lg"
-                    placeholder="Email Address"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChange}/>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    className="form-control form-control-lg"
-                    placeholder="Password"
-                    name="password"
-                    value={this.state.password}
-                   onChange={this.onChange}/>
-                  
-                </div>
-                <input type="submit" className="btn btn-info btn-block mt-4" />
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+           
         );
     }
 }
@@ -166,14 +103,16 @@ LoginPage.defaultProps = {
 
 }
 
-LoginPage.propTypes = {
-    login: PropTypes.func.isRequired,
-    errors: PropTypes.object.isRequired
-}
+const mapStateToProps = state => {
+  return {
+      auth:state.auth
+  }
+};
 
-const mapStateToProps = state => ({
-   security: state.security,
-   errors: state.errors
-})
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (email, password) => dispatch(login(email, password))
+  };
+};
 
-export default connect(mapStateToProps, {login}) (LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

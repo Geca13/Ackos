@@ -8,17 +8,30 @@ import SignUpPage from './pages/SignUpPage'
 import UserPage from './pages/UserPage'
 import ProductPage from './pages/ProductPage'
 import Users from './pages/Users'
-import {  Route , Switch } from 'react-router-dom'
+import Landing from './pages/Landing'
+import { BrowserRouter as Router, Route , Switch } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 
 
 
-function App() {
+const App = () => {
+
+  window.onbeforeunload = (event) => {
+    const e = event || window.event;
+    e.preventDefault();
+    if (e) {
+      e.returnValue = "";
+    }
+    return "";
+  };
+
   return (
-    <div className='container' >
+    <Router>
       <Topbar/>
+      <div className='container' >
       <Switch>
-         <Route  exact path='/' component={HomePage} />
+         <Route  exact path='/' component={Landing} />
+         <Route  path='/home' component={HomePage} />
          <Route  path='/products' component={Products} />
          <Route  path='/login' component={LoginPage} />
          <Route  path='/signup' component={SignUpPage }/>
@@ -26,6 +39,7 @@ function App() {
          <Route  path='/:product' component={ProductPage} />
       </Switch>
     </div>
+    </Router>
   );
 }
 

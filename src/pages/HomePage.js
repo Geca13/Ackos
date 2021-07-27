@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class HomePage extends Component {
     render() {
         return (
-            <div data-testid='homepage'>
+            <div >
                 <h1>Homepage</h1>
             </div>
         );
