@@ -1,11 +1,13 @@
 import axios from "axios";
 import setJWTToken from "./dataService";
 import jwt_decode from 'jwt-decode'
-import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+
 
 export const signup = (user) =>{
     return axios.post('/auth/signUpUser', user);
 }
+
+
 
 export const login = LoginRequest => async dispatch => {
   try {

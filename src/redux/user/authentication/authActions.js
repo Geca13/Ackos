@@ -37,3 +37,13 @@ export const login = (email, password) => {
       payload: false,
     };
   };
+
+  export const logoutUser = () => {
+    return (dispatch) => {
+      dispatch({
+        type: authTypes.LOGOUT_REQUEST,
+      });
+      localStorage.removeItem("jwtToken");
+      dispatch(success(false));
+    };
+  };

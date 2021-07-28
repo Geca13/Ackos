@@ -3,17 +3,14 @@ import { links ,social, links2} from '../api/links'
 import { connect } from 'react-redux'
 import {FaBars, FaTwitter } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { logoutUser } from '../redux/user/authentication/authActions'
 
-class TopBar extends React.Component {
+const  TopBar = (props) =>  {
 
-    onClickLogout =()=>{
-     const action = {
-         type: 'logout-success'
-     }
-     this.props.dispatch(action)
-    }
-    render() {
-
+    const logout = () => {
+        props.logoutUser();
+    };
+    
         let links = (
             <ul className='nav navbar-nav ml-auto'>
                 <li className='nav-item'>
@@ -29,16 +26,16 @@ class TopBar extends React.Component {
                 </li>
             </ul>
             );
-            if(this.props.user.isLoggedIn){
+            if(props.auth.isLoggedIn){
                links = (
                 <ul className='nav navbar-nav ml-auto'>
                     <li className='nav-item nav-link' >
-                      <Link to={`/${this.props.user.id}`}>
+                      <Link to={`/${props.user.id}`}>
                          My Profile
                      </Link>
                   </li> 
                   <li className='nav-item nav-link'
-                   onClick={this.onClickLogout}
+                   onClick={logout}
                    style={{cursor:'pointer'}}>
                    Logout
                   </li> 
@@ -57,13 +54,19 @@ class TopBar extends React.Component {
 
             </div>
         );
-    }
+    
 }
 
-const mapStateToProps =(state)=>{
+const mapStateToProps = (state) => {
     return {
-    user: state
-    }
- }
- 
- export default connect(mapStateToProps)(TopBar);
+      auth: state.auth,
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      logoutUser: () => dispatch(logoutUser()),
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(TopBar);
