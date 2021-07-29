@@ -1,5 +1,6 @@
 import * as authTypes from './authTypes'
 import axios from 'axios'
+import jwtDecode from 'jwt-decode';
 
 export const login = (email, password) => {
     const credentials = {
@@ -14,7 +15,10 @@ export const login = (email, password) => {
         .post("/auth/signInUser", credentials)
         .then((response) => {
           let token = response.data.token;
+          const { exp } = jwtDecode(token);
+          const token1= jwtDecode(token);
           localStorage.setItem("jwtToken", token);
+          localStorage.setItem("exp", exp);
           dispatch(success({ firstName: response.data.firstName, isLoggedIn: true }));
           localStorage.setItem("user", credentials.email )
         })
@@ -43,7 +47,7 @@ export const login = (email, password) => {
       dispatch({
         type: authTypes.LOGOUT_REQUEST,
       });
-      localStorage.removeItem("jwtToken");
+      localStorage.clear();
       dispatch(success(false));
     };
   };

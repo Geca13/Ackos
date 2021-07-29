@@ -26,10 +26,13 @@ export class LoginPage extends Component {
     }
 
     onClickLogin = () => {
+        
       this.props.login(this.state.email, this.state.password);
       setTimeout(() => {
           if(this.props.auth.isLoggedIn) {
-              return this.props.history.push("/");
+           
+              return this.props.history.push("/home");
+              
           } else {
               
               this.setState({"error":"Invalid email and password"});
@@ -93,15 +96,7 @@ export class LoginPage extends Component {
     }
 }
 
-LoginPage.defaultProps = {
-    actions: {
-        postLogin: () =>
-         new Promise((resolve, reject) =>
-          resolve({}))
-    },
-    dispatch: () =>{}
 
-}
 
 const mapStateToProps = state => {
   return {

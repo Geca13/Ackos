@@ -9,7 +9,10 @@ const  TopBar = (props) =>  {
 
     const logout = () => {
         props.logoutUser();
+        
     };
+
+    const userEmail = localStorage.getItem('user');
     
         let links = (
             <ul className='nav navbar-nav ml-auto'>
@@ -26,13 +29,14 @@ const  TopBar = (props) =>  {
                 </li>
             </ul>
             );
-            if(props.auth.isLoggedIn){
+            if(localStorage.getItem('jwtToken')!== null ) {
                links = (
                 <ul className='nav navbar-nav ml-auto'>
                     <li className='nav-item nav-link' >
-                      <Link to={`/${props.user.id}`}>
-                         My Profile
-                     </Link>
+                      
+                     
+                  hi  {userEmail}
+                     
                   </li> 
                   <li className='nav-item nav-link'
                    onClick={logout}
