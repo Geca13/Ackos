@@ -51,3 +51,7 @@ export const login = (email, password) => {
       dispatch(success(false));
     };
   };
+
+  export const getUser = (email) => {
+    return axios.get(`/auth/my-profile/${email}`);
+  };

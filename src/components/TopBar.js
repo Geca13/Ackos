@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import {FaBars, FaTwitter } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { logoutUser } from '../redux/user/authentication/authActions'
+import { getUser } from '../redux/user/authentication/authActions';
+
 
 const  TopBar = (props) =>  {
 
@@ -12,8 +14,9 @@ const  TopBar = (props) =>  {
         
     };
 
-    const userEmail = localStorage.getItem('user');
-    
+    const email = localStorage.getItem('user');
+
+
         let links = (
             <ul className='nav navbar-nav ml-auto'>
                 <li className='nav-item'>
@@ -33,9 +36,11 @@ const  TopBar = (props) =>  {
                links = (
                 <ul className='nav navbar-nav ml-auto'>
                     <li className='nav-item nav-link' >
-                      
+                      <Link to={getUser(email)}>
+
                      
-                  hi  {userEmail}
+                  hi  {email}
+                       </Link>
                      
                   </li> 
                   <li className='nav-item nav-link'
