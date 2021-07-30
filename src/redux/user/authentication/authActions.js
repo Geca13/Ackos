@@ -15,13 +15,16 @@ export const login = (email, password) => {
         .post("/auth/signInUser", credentials)
         .then((response) => {
           let token = response.data.token;
+          
           localStorage.setItem("user", credentials.email )
           const { exp } = jwtDecode(token);
-          
+          const { sub } = jwtDecode(token);
           localStorage.setItem("jwtToken", token);
           localStorage.setItem("exp", exp);
-          dispatch(success({ firstName: response.data.firstName, isLoggedIn: true }));
-          
+          localStorage.setItem("sub", sub);
+          dispatch(success({ email: response.data.email, isLoggedIn: true }));
+          let payload = response.data.isLoggedIn;
+          localStorage.setItem('data', payload)
         })
         .catch((error) => {
           dispatch(failure());
@@ -57,6 +60,6 @@ export const login = (email, password) => {
     return axios.get(`/auth/my-profile/${email}`);
   };
 
-  export const updateUser = (userId, body) => {
-    return axios.put('/auth/my-profile/' + userId, body);
+  export const updateUser = (email, body) => {
+    return axios.post(`/auth/my-profile/${email}`, body);
   };
