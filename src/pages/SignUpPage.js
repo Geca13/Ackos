@@ -3,6 +3,7 @@ import Input from '../components/Input';
 import ButtonWithProgress from '../components/ButtonWithProgress';
 import { connect } from 'react-redux'
 import * as authActions from '../redux/user/userActions'
+import { login } from '../redux/user/authentication/authActions'
 
 export class SignUpPage extends Component {
 
@@ -67,6 +68,7 @@ export class SignUpPage extends Component {
         this.props.actions.postSignUp(user)
             
             this.setState({pendingApiCall:false}, () => {
+                
                 this.props.history.push('/home')
             })
         

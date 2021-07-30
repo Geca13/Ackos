@@ -36,18 +36,21 @@ const  TopBar = (props) =>  {
                links = (
                 <ul className='nav navbar-nav ml-auto'>
                     <li className='nav-item nav-link' >
-                      <Link to={getUser(email)}>
+                      <Link to={email}>
 
                      
                   hi  {email}
                        </Link>
                      
                   </li> 
-                  <li className='nav-item nav-link'
-                   onClick={logout}
-                   style={{cursor:'pointer'}}>
+                  <Link to={"/"} className='nav-item nav-link'
+                  
+                  onClick={logout}
+                  style={{cursor:'pointer'}}>
+                  
                    Logout
-                  </li> 
+                   
+                  </Link>
                 </ul>
                ) 
             }

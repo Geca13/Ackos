@@ -12,7 +12,8 @@ export class LoginPage extends Component {
         email: '' ,
         password:'',
         apiError: undefined,
-        pendingApiCall: false
+        pendingApiCall: false, 
+        error: ''
     }
 
     onChangeEmail = (event) => {
@@ -25,8 +26,8 @@ export class LoginPage extends Component {
         this.setState({password: value , apiError:undefined})
     }
 
-    onClickLogin = () => {
-        
+    onClickLogin = (e) => {
+        e.preventDefault();
       this.props.login(this.state.email, this.state.password);
       setTimeout(() => {
           if(this.props.auth.isLoggedIn) {
@@ -70,10 +71,10 @@ export class LoginPage extends Component {
                    onChange={this.onChangePassword}/>
                 </div>
                 {
-                    this.state.apiError && (
+                    this.state.error && (
                         <div className='col-12 mb-3'>
                           <div className='alert alert-success'>
-                            {this.state.apiError}
+                            {this.state.error}
                           </div>
                         </div>
                     )

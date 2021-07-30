@@ -35,8 +35,15 @@ const App = () => {
          <Route  path='/products' component={Products} />
          <Route  path='/login' component={LoginPage} />
          <Route  path='/signup' component={SignUpPage }/>
-         <Route  path='/:id' component={UserPage} />
+         <Route  path='/:email' component={UserPage} />
          <Route  path='/:product' component={ProductPage} />
+         <Route
+                path="/"
+                exact
+                component={() => (
+                  <Landing message="User Logged Out Successfully." />
+                )}
+              />
       </Switch>
     </div>
     </Router>
