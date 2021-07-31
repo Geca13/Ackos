@@ -149,15 +149,17 @@ const UserPage = (props) => {
 
   useEffect(() => {
     const loadUser = () => {
-      const username = props.match.params.email;
-      if (!username) {
+      const email = props.match.params.email;
+      
+      if (!email) {
         return;
       }
       dispatch({ type: 'loading-user' });
       authActions
-        .getUser(username)
+        .getUser(props.match.params.email)
         .then((response) => {
           dispatch({ type: 'load-user-success', payload: response.data });
+          console.log( response.data.id )
         })
         .catch((error) => {
           dispatch({ type: 'load-user-failure' });
@@ -168,6 +170,7 @@ const UserPage = (props) => {
 
   const onClickSave = () => {
     const userId = props.loggedInUser.id;
+    console.log(`dddd + ${userId}`)
     const userUpdate = {
       firstName: state.user.firstName,
       lastName: state.user.lastName,

@@ -19,12 +19,18 @@ export const login = (email, password) => {
           localStorage.setItem("user", credentials.email )
           const { exp } = jwtDecode(token);
           const { sub } = jwtDecode(token);
+          const { scopes } = jwtDecode(token);
+          const { iss } = jwtDecode(token);
+          localStorage.setItem("iss", iss);
           localStorage.setItem("jwtToken", token);
           localStorage.setItem("exp", exp);
           localStorage.setItem("sub", sub);
+
+          let data = response.payload;
+          localStorage.setItem("data", data);
+
           dispatch(success({ email: response.data.email, isLoggedIn: true }));
-          let payload = response.data.isLoggedIn;
-          localStorage.setItem('data', payload)
+          
         })
         .catch((error) => {
           dispatch(failure());
@@ -57,6 +63,7 @@ export const login = (email, password) => {
   };
 
   export const getUser = (email) => {
+    
     return axios.get(`/auth/my-profile/${email}`);
   };
 
