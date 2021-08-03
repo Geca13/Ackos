@@ -159,7 +159,7 @@ const UserPage = (props) => {
         .getUser(props.match.params.email)
         .then((response) => {
           dispatch({ type: 'load-user-success', payload: response.data });
-          console.log( response.data.id )
+          
         })
         .catch((error) => {
           dispatch({ type: 'load-user-failure' });
@@ -170,8 +170,9 @@ const UserPage = (props) => {
 
   const onClickSave = () => {
     const userId = props.loggedInUser.id;
-    console.log(`dddd + ${userId}`)
+    
     const userUpdate = {
+      id: userId,
       firstName: state.user.firstName,
       lastName: state.user.lastName,
       email: state.user.email,
@@ -179,7 +180,7 @@ const UserPage = (props) => {
     };
     dispatch({ type: 'update-progress' });
     authActions
-      .updateUser(userId, userUpdate)
+      .updateUser(props.match.params.email, userUpdate)
       .then((response) => {
         dispatch({ type: 'update-success' });
         const updatedUser = { ...state.user };
@@ -219,7 +220,7 @@ const UserPage = (props) => {
     pageContent = state.user && (
       <ProfileCard
         user={state.user}
-        isEditable={isEditable}
+        isEditable={isEditable} 
         inEditMode={state.inEditMode}
         onClickEdit={() => dispatch({ type: 'edit-mode' })}
         onClickCancel={() => dispatch({ type: 'cancel' })}

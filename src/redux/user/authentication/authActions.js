@@ -15,20 +15,13 @@ export const login = (email, password) => {
         .post("/auth/signInUser", credentials)
         .then((response) => {
           let token = response.data.token;
-          
-          localStorage.setItem("user", credentials.email )
-          const { exp } = jwtDecode(token);
           const { sub } = jwtDecode(token);
-          const { scopes } = jwtDecode(token);
-          const { iss } = jwtDecode(token);
-          localStorage.setItem("iss", iss);
+          localStorage.setItem("user", sub )
+         
+          const { exp } = jwtDecode(token);
           localStorage.setItem("jwtToken", token);
           localStorage.setItem("exp", exp);
-          localStorage.setItem("sub", sub);
-
-          let data = response.payload;
-          localStorage.setItem("data", data);
-
+          
           dispatch(success({ email: response.data.email, isLoggedIn: true }));
           
         })
@@ -70,3 +63,14 @@ export const login = (email, password) => {
   export const updateUser = (email, body) => {
     return axios.post(`/auth/my-profile/${email}`, body);
   };
+
+  export const getProduct = (id) => {
+    
+    return axios.get(`/auth/product/${id}`);
+  };
+
+  export const updateProduct = (id, product) => {
+    return axios.post(`/auth/product/${id}`, product);
+  };
+
+  
