@@ -17,14 +17,7 @@ import Categories from './pages/Categories'
 
 const App = () => {
 
-  window.onbeforeunload = (event) => {
-    const e = event || window.event;
-    e.preventDefault();
-    if (e) {
-      e.returnValue = "";
-    }
-    return "";
-  };
+  
 
   return (
     <Router>

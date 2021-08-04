@@ -11,7 +11,7 @@ const ProductCard2 = ({ name, description, priceOnPack, priceOnPiece, id }) => {
        <h3>{description}</h3>
        <h3>{name}</h3>
        <Link to= {`/product/${id}`} className='btn btn-primary btn-details'>
-         See All
+         Details
        </Link>
         </div>
       </article>
